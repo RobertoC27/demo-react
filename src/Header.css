@@ -1,0 +1,15 @@
+.header-elements {
+    list-style: none;
+}
+
+.header-element {
+    text-decoration: none;
+    margin: 0;
+    padding: 1rem;
+}
+
+.header-element a {
+    text-decoration: none;
+    list-style: none;
+    color:black;
+}

@@ -1,0 +1,9 @@
+.single-post {
+    border: 1px solid black;
+    margin: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    width: 30vw;
+    
+    display: inline-block;
+}
