@@ -5,7 +5,7 @@ import MyHeader from './MyHeader';
 import MyClass from './MyClass';
 import Posts from './Posts';
 import Header from './Header';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 const data = [
   {
     "userId": 1,
@@ -32,7 +32,7 @@ const data = [
     "body": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit"
   },]
 class App extends Component {
-  state = { baseId: 4 * 5, posts: [] }
+  state = { baseId: 4 * 5, posts: [], isAuth: true }
 
   componentDidMount() {
     console.log('did mount');
@@ -58,9 +58,15 @@ class App extends Component {
       <div >
         <BrowserRouter>
           <Header />
-          <Route exact path="/" render={() => <h2>Bienvenido</h2> } />
-          <Route path="/new-post" component={Header} />
-          {/* <Posts posts={this.state.posts} /> */}
+          <Switch>
+            <Route exact path="/" render={() => <h2>Bienvenido</h2>} />
+            <Route path="/new-post" component={Header} />
+            {this.state.isAuth ?<Route path="/secrets" render={() => <div>Esto es solo para miembros</div>  } /> : null}
+            <Route path="/posts" render={props => <Posts posts={this.state.posts} />} />
+            {/* <Redirect from="/" to="/examen" /> */}
+            <Route render={() => <h1>Oops. page not found</h1>} />
+          </Switch>
+
         </BrowserRouter>
       </div>
 
