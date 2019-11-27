@@ -11,6 +11,7 @@ const posts = props => {
           title={post.title}
           contenido={post.body}
           author={post.userId}
+          deletePost={() => props.deletePost(post.id)}
         />
       )
     })

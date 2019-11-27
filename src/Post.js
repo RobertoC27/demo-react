@@ -7,6 +7,7 @@ const Post = props => {
       <br />
       <div>{props.contenido}</div>
       <div>{props.author}</div>
+      <button onClick={props.deletePost}>Delete me</button>
     </div>
   )
 }

@@ -5,6 +5,8 @@ import MyHeader from './MyHeader';
 import MyClass from './MyClass';
 import Posts from './Posts';
 import Header from './Header';
+import NewPost from './NewPost';
+
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 const data = [
   {
@@ -45,7 +47,28 @@ class App extends Component {
 
   componentDidUpdate() {
     console.log('did update');
+  }
 
+  addPost = post => {
+    post.userId =  '23';
+    post.id = this.state.posts.length + 1;
+
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        posts: [...prevState.posts, post]
+      }
+    })
+  }
+
+  deletePost = toDelete => {
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        posts: prevState.posts.filter(currentPost => currentPost.id !== toDelete)
+
+      }
+    })
   }
 
   handle = e => {
@@ -60,9 +83,9 @@ class App extends Component {
           <Header />
           <Switch>
             <Route exact path="/" render={() => <h2>Bienvenido</h2>} />
-            <Route path="/new-post" component={Header} />
+            <Route path="/new-post" render={props => <NewPost  addPost={this.addPost}/>} />
             {this.state.isAuth ?<Route path="/secrets" render={() => <div>Esto es solo para miembros</div>  } /> : null}
-            <Route path="/posts" render={props => <Posts posts={this.state.posts} />} />
+            <Route path="/posts" render={props => <Posts posts={this.state.posts} deletePost={this.deletePost}/>} />
             {/* <Redirect from="/" to="/examen" /> */}
             <Route render={() => <h1>Oops. page not found</h1>} />
           </Switch>
