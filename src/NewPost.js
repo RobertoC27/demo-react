@@ -50,7 +50,7 @@ class NewPost extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         <h1>Datos para el post</h1>
         <label htmlFor="title">Titulo</label>
         <input
@@ -69,7 +69,7 @@ class NewPost extends React.Component {
         <button 
         onClick={this.createPost}
         disabled={this.state.isSubmitting}>Enviar</button>
-      </div>
+      </>
     )
   }
 }

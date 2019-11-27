@@ -6,7 +6,7 @@ import MyClass from './MyClass';
 import Posts from './Posts';
 import Header from './Header';
 import NewPost from './NewPost';
-
+import axios from 'axios';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 const data = [
   {
@@ -34,15 +34,23 @@ const data = [
     "body": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit"
   },]
 class App extends Component {
-  state = { baseId: 4 * 5, posts: [], isAuth: true }
+  state = {
+    baseId: 4 * 5,
+    posts: [],
+  }
 
-  componentDidMount() {
+  async componentDidMount() {
     console.log('did mount');
-    setTimeout(() => {
-      this.setState((prevState) => {
-        return { posts: data }
-      })
-    }, 2000)
+    // setTimeout(() => {
+    //   this.setState((prevState) => {
+    //     return { posts: data }
+    //   })
+    // }, 2000)
+
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    // console.log(posts);
+    
+    this.setState({posts: response.data})
   }
 
   componentDidUpdate() {
@@ -50,7 +58,7 @@ class App extends Component {
   }
 
   addPost = post => {
-    post.userId =  '23';
+    post.userId = '23';
     post.id = this.state.posts.length + 1;
 
     this.setState((prevState) => {
@@ -80,12 +88,11 @@ class App extends Component {
     return (
       <div >
         <BrowserRouter>
-          <Header />
+          <Header/>
           <Switch>
             <Route exact path="/" render={() => <h2>Bienvenido</h2>} />
-            <Route path="/new-post" render={props => <NewPost  addPost={this.addPost}/>} />
-            {this.state.isAuth ?<Route path="/secrets" render={() => <div>Esto es solo para miembros</div>  } /> : null}
-            <Route path="/posts" render={props => <Posts posts={this.state.posts} deletePost={this.deletePost}/>} />
+            <Route path="/new-post" render={props => <NewPost addPost={this.addPost} />} />
+            <Route path="/posts" render={props => <Posts posts={this.state.posts} deletePost={this.deletePost} />} />
             {/* <Redirect from="/" to="/examen" /> */}
             <Route render={() => <h1>Oops. page not found</h1>} />
           </Switch>

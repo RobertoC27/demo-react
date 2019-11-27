@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Post from './Post';
 
 const posts = props => {
@@ -17,9 +17,9 @@ const posts = props => {
     })
   }
   return (
-    <div>
+    <Fragment>
       {posts}
-    </div>
+    </Fragment>
   )
 }
 
