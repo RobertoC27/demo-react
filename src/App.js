@@ -8,6 +8,9 @@ import Header from './Header';
 import NewPost from './NewPost';
 import axios from 'axios';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Signin from './Signin';
+import AuthContext from './AuthContext';
+
 const data = [
   {
     "userId": 1,
@@ -37,6 +40,7 @@ class App extends Component {
   state = {
     baseId: 4 * 5,
     posts: [],
+    isAuth: false
   }
 
   async componentDidMount() {
@@ -49,12 +53,14 @@ class App extends Component {
 
     const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
     // console.log(posts);
-    
-    this.setState({posts: response.data})
+
+    this.setState({ posts: response.data })
+    // this.setState({ posts: data })
   }
 
   componentDidUpdate() {
     console.log('did update');
+    // hago la llamada al servidor por aparte para cargar imagen
   }
 
   addPost = post => {
@@ -83,24 +89,36 @@ class App extends Component {
     this.setState({ baseId: Math.random() })
   }
 
+  changeAuth = () => {
+    this.setState((prevState) => {
+      return {isAuth: !prevState.isAuth}
+    })
+  }
+
   render() {
 
     return (
-      <div >
+      <AuthContext.Provider value={{
+        isAuth: this.state.isAuth,
+        toggleAuth: this.changeAuth
+      }}>
         <BrowserRouter>
-          <Header/>
+          <Header />
+          {this.state.isAuth ? <button onClick={this.changeAuth}>Logout</button> : <button onClick={this.changeAuth}>Login</button> }
+          <br/>
           <Switch>
             <Route exact path="/" render={() => <h2>Bienvenido</h2>} />
+            <Route exact path="/signin" component={Signin} />
             <Route path="/new-post" render={props => <NewPost addPost={this.addPost} />} />
             <Route path="/posts" render={props => <Posts posts={this.state.posts} deletePost={this.deletePost} />} />
             {/* <Redirect from="/" to="/examen" /> */}
             <Route render={() => <h1>Oops. page not found</h1>} />
           </Switch>
-
+      <img src="" alt="Cargado imagen"/>
         </BrowserRouter>
-      </div>
+      </AuthContext.Provider>
 
-    );
+    )
   }
 }
 

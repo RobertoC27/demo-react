@@ -36,4 +36,4 @@ const Header = props => {
 }
 
 const wrappedHeader = withAuth(Header);
-export default Header;
+export default wrappedHeader;

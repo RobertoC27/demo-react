@@ -9,12 +9,12 @@ const Post = props => {
       <br />
       <div>{props.contenido}</div>
       <div>{props.author}</div>
-      <button onClick={props.deletePost}>Delete me</button>
+      
       {props.isAuth ?
-        <div>holamundo</div> :
+        <button onClick={props.deletePost}>Delete me</button> :
         <div>login to delete</div> }
     </div>
   )
 }
 const wrapped = withAuth(Post)
-export default Post;
+export default wrapped;

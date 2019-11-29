@@ -1,15 +1,12 @@
 import React from 'react';
+import AuthContext from './AuthContext';
 
-const withAuth = Component => props =>{
-  return class WithAuth extends React.Component {
-    
-    state = {isAuth: true}
-    render() {
-      return (
-        <Component isAuth={this.state.isAuth} {...this.props}/>
-      )
-    }
-  }
+const withAuth = Component => props => {
+  return (
+    <AuthContext.Consumer >
+      {value => <Component isAuth={value.isAuth} {...props} />}
+    </AuthContext.Consumer>
+  )
 }
 
 export default withAuth;
